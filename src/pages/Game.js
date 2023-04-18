@@ -3,7 +3,7 @@ import CharacterSelectMenu from "../components/CharacterSelectMenu";
 import WinScreen from "../components/WinScreen";
 
 const Game = (props) => {
-    const { currentLevel, setCurrentLevel } = props;
+    const { currentLevel, setCurrentLevel, leaveGame, setLeaveGame } = props;
     const [selectedCharacter, setSelectedCharacter] = useState();
     const [clickCoordinates, setClickCoordinates] = useState();
     const [characterSelectMenu, setCharacterSelectMenu] = useState();
@@ -58,6 +58,25 @@ const Game = (props) => {
         return false;
     }
 
+    let resetProps = () => {
+        //Reset foundStatus Attr in each character
+        let defaultCurrentLevel = currentLevel;
+        defaultCurrentLevel.characters = defaultCurrentLevel.characters.map((character) => {
+            character.foundStatus = false;
+            return character;
+        });
+
+        setCurrentLevel(defaultCurrentLevel);
+        setSelectedCharacter();
+        setClickCoordinates();
+        setCharacterSelectMenu();
+        setTimer(0);
+        setIsRunning(true);
+        setWinScreen();
+        setWinStatus(false);
+        setLeaveGame(false);
+    }
+
     //If images clicked, append select menu
     useEffect(() => {
         if (clickCoordinates !== undefined) {
@@ -71,6 +90,7 @@ const Game = (props) => {
         }
     }, [clickCoordinates, currentLevel]);
 
+    //Check if charcter has been clicked after character selected in menu
     useEffect(() => {
         setCharacterSelectMenu();
         if (selectedCharacter !== undefined) {
@@ -93,24 +113,20 @@ const Game = (props) => {
 
     }, [isRunning, timer])
 
-    //On Win
+    //On Win, append WinScreen
     useEffect(() => {
         if (winStatus === true) {
             setIsRunning(false);
-            setWinScreen(<WinScreen
-                timer={timer}
-                currentLevel={currentLevel} 
-                setCurrentLevel={setCurrentLevel} 
-                setSelectedCharacter={setSelectedCharacter} 
-                setClickCoordinates={setClickCoordinates}
-                setCharacterSelectMenu={setCharacterSelectMenu}
-                setTimer={setTimer}
-                setIsRunning={setIsRunning}
-                setWinScreen={setWinScreen}
-                setWinStatus={setWinStatus}
-            />);
+            setWinScreen(<WinScreen timer={timer} setLeaveGame={setLeaveGame} />);
         }
     }, [winStatus])
+
+    //
+    useEffect(() => {
+        if (leaveGame === true) {
+            resetProps();
+        }
+    }, [leaveGame])
 
     return (
         <div>
