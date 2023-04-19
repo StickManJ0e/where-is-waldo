@@ -117,7 +117,7 @@ const Game = (props) => {
     useEffect(() => {
         if (winStatus === true) {
             setIsRunning(false);
-            setWinScreen(<WinScreen timer={timer} setLeaveGame={setLeaveGame} />);
+            setWinScreen(<WinScreen timer={timer} setLeaveGame={setLeaveGame} currentLevel={currentLevel}/>);
         }
     }, [winStatus])
 

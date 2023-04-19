@@ -13,7 +13,7 @@ body {
   align-content: center;
 }
 
-.main-home:hover {
+.level-card:hover {
   cursor: pointer;
 }
 
@@ -81,3 +81,24 @@ header {
   justify-content: space-around;
   align-items: center;
 }
+
+.level-selector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.level-selector>.level-card>img {
+  width: 250px;
+  height: 150px;
+}
+
+.level-selector>.level-card>.level-info {
+  height: 3rem;
+}
+
+.level-selector >.level-card:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
