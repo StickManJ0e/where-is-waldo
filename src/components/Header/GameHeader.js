@@ -5,7 +5,7 @@ const GameHeader = (props) => {
     const { currentLevel, setCurrentLevel, setLeaveGame } = props;
 
     return (
-        <header>
+        <header className="game-header">
             <div className="character-display">
                 {(currentLevel.characters).map((character) => {
                     return (

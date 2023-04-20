@@ -4,6 +4,7 @@ import {
     collection,
     orderBy,
     getDocs,
+    query
 } from 'firebase/firestore';
 import LevelData from "../data/LevelData";
 
@@ -21,7 +22,7 @@ const Leaderboard = () => {
         };
 
         const docRef = collection(firestore, 'leaderboard', currentLevelID, 'scores');
-        const querySnapshot = await getDocs(docRef, orderBy('score', 'asc'));
+        const querySnapshot = await getDocs(query(docRef, orderBy('score', 'asc')));
 
         let newScores = []
         querySnapshot.forEach((doc) => {
@@ -39,7 +40,7 @@ const Leaderboard = () => {
     useEffect(() => {
         getScores();
         let div = document.querySelector(`#${currentLevelID}`);
-        div.style.backgroundColor = 'red';
+        div.style.backgroundColor = 'rgba(230, 57, 70, 0.8)';
     }, [currentLevelID])
 
     return (
@@ -56,11 +57,15 @@ const Leaderboard = () => {
                 })}
             </div>
             <div className="scores-table">
+                <div className="scores-heading">
+                    <div className="scores-name">Name</div>
+                    <div className="scores-score">Time (Seconds)</div>
+                </div>
                 {scores.map((score) => {
                     return (
-                        <div key={score.uid}>
-                            {score.name}
-                            {score.score}
+                        <div className="scores-div" key={score.uid}>
+                            <div className="scores-name">{score.name}</div>
+                            <div className="scores-score">{score.score}</div>
                         </div>
                     )
                 })}

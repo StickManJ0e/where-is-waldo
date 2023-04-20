@@ -14,9 +14,8 @@ const Game = (props) => {
 
     //Get click coordinates relative to image based on event taregt and set as new clickCoordinates
     let getCoordinates = (e) => {
-        let header = document.querySelector('header');
         let xClickCoordinate = e.pageX;
-        let yClickCoordinate = e.pageY - header.offsetHeight;
+        let yClickCoordinate = e.pageY;
         return [xClickCoordinate, yClickCoordinate];
     }
 

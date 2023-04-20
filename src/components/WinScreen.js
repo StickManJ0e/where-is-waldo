@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 
 const WinScreen = (props) => {
     const { timer, setLeaveGame, currentLevel } = props;
@@ -15,16 +15,15 @@ const WinScreen = (props) => {
     }
 
     useEffect(() => {
-        //Sign in annoymus user 
-        signInAnonymously(auth)
-            .catch((error) => {
-                console.log(error);
-            });
-
+        signInAnonymously(auth).catch((error) => {
+            console.log(error);
+        });
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUid(user.uid);
-            };
+            } else {
+
+            }
         });
     }, []);
 
@@ -32,9 +31,10 @@ const WinScreen = (props) => {
         return new Promise(function () {
             const scoreRef = doc(firestore, 'leaderboard', currentLevel.id, 'scores', uid);
             setDoc(scoreRef, {
-                name: e.target.parentElement.querySelector('input').value,
+                name: e.target.parentElement.parentElement.querySelector('input').value,
                 uid: uid,
                 score: getConvertedTime(),
+                timestamp: serverTimestamp(),
             });
         });
     }
@@ -49,14 +49,16 @@ const WinScreen = (props) => {
         <div>
             <div className="win-backdrop"></div>
             <div className="win-screen">
-                <div>You finished in {getConvertedTime()} seconds!</div>
+                <h1>You finished in {getConvertedTime()} seconds!</h1>
+                <div>Enter your name to save score to leaderboard.</div>
                 <div className="username-input-div">
-                    <p>Enter your name to save score to leaderboard.</p>
                     <label htmlFor='username'>Username</label>
                     <input type="text" name="username" id="username-input" placeholder="username"></input>
                 </div>
-                <Link to={'/'} onClick={() => setLeaveGame(true)}>Return</Link>
-                <Link to={'/'} onClick={(e) => saveAndReturn(e)}>Submit Score</Link>
+                <div className="links">
+                    <Link style={{ backgroundColor: '#3a86ff' }} to={'/'} onClick={() => setLeaveGame(true)}>Return</Link>
+                    <Link to={'/'} onClick={(e) => saveAndReturn(e)}>Submit Score</Link>
+                </div>
             </div>
         </div>
     )
