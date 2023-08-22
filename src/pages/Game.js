@@ -12,7 +12,7 @@ const Game = (props) => {
     const [winScreen, setWinScreen] = useState();
     const [winStatus, setWinStatus] = useState(false);
 
-    //Get click coordinates relative to image based on event taregt and set as new clickCoordinates
+    //Get clicked coordinates relative to image based on event taregt and set as new adjusted coordinates
     let getCoordinates = (e) => {
         let xClickCoordinate = e.pageX;
         let yClickCoordinate = e.pageY;
@@ -24,7 +24,7 @@ const Game = (props) => {
         setClickCoordinates(coordinates);
     }
 
-    //Check if click coordinates is within charcter coordiantes range
+    //Check if click coordinates is given coordinates range
     let checkInArrayRange = (xRange, yRange) => {
         if (
             clickCoordinates[0] >= xRange[0] &&
@@ -37,11 +37,13 @@ const Game = (props) => {
         return false;
     }
 
+    //Check if every character in level have been found
     let checkWin = () => {
         let winStatus = currentLevel.characters.every((character) => character.foundStatus === true);
         return winStatus;
     }
 
+    //Check if clicked coordinates match character coordinates and set found status to true if found
     let checkCharacterClicked = () => {
         let charcterXRange = selectedCharacter.xCoordinates;
         let characterYRange = selectedCharacter.yCoordinates;
@@ -75,8 +77,7 @@ const Game = (props) => {
         setWinStatus(false);
         setLeaveGame(false);
     }
-
-    //If images clicked, append select menu
+    //Append character select menu if images selected
     useEffect(() => {
         if (clickCoordinates !== undefined) {
             setCharacterSelectMenu(
@@ -101,7 +102,7 @@ const Game = (props) => {
         };
     }, [selectedCharacter]);
 
-    //Background timer
+    //Start background timer
     useEffect(() => {
         let intervalID;
         if (isRunning) {
@@ -112,7 +113,7 @@ const Game = (props) => {
 
     }, [isRunning, timer])
 
-    //On Win, append WinScreen
+    //Append winscreen and stop timer when win status is true
     useEffect(() => {
         if (winStatus === true) {
             setIsRunning(false);
@@ -120,7 +121,7 @@ const Game = (props) => {
         }
     }, [winStatus])
 
-    //
+    //Reset all props when player leaves game
     useEffect(() => {
         if (leaveGame === true) {
             resetProps();

@@ -14,6 +14,7 @@ const Leaderboard = () => {
     const [currentLevelID, setCurrentLevelID] = useState('level01');
     const [scores, setScores] = useState([]);
 
+    //Get scores for leaderboard on render
     async function getScores() {
         let scoreObject = (name, score, uid) => {
             return {

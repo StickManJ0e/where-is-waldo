@@ -14,6 +14,7 @@ const WinScreen = (props) => {
         return `${seconds}:${milliseconds}`;
     }
 
+    //Sign in anonymously and get user uid
     useEffect(() => {
         signInAnonymously(auth).catch((error) => {
             console.log(error);
@@ -27,6 +28,7 @@ const WinScreen = (props) => {
         });
     }, []);
 
+    //Save player high score to scores database
     function saveScore(e) {
         return new Promise(function () {
             const scoreRef = doc(firestore, 'leaderboard', currentLevel.id, 'scores', uid);
