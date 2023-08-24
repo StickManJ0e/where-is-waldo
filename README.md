@@ -1,9 +1,9 @@
 # Where's Waldo?
 Where's Waldo is a React Project that aims to replicate the classic "Where's Waldo" game while also incorporating a realtime, backend database. React is used to build the project while Firebase is used for authentication and storing high scores. 
 Firebase Hosting Link: https://where-is-waldo-64ca4.web.app
-![Home page screen](<src/image/homepage.png>)
-![Starting a level and gameplay footage](<src/image/gameplay.gif>)
-![Game leaderboards](<src/image/leaderboard.gif>)
+![Home page screen](<src/images/homepage.png>)
+![Starting a level and gameplay footage](<src/images/gameplay.gif>)
+![Game leaderboards](<src/images/leaderboard.gif>)
 
 ## Features
 - Multiple selectable levels
